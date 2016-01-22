@@ -873,7 +873,9 @@ int
 tone_alarm_main(int argc, char *argv[])
 {
 	unsigned tune;
-
+#ifdef CONFIG_ARCH_BOARD_PX4FMU_V3
+    exit(0);
+#endif
 	/* start the driver lazily */
 	if (g_dev == nullptr) {
 		g_dev = new ToneAlarm;

@@ -120,7 +120,7 @@ private:
 #if defined(CONFIG_ARCH_BOARD_PX4FMU_V1)
 	static const unsigned _max_actuators = 4;
 #endif
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 	static const unsigned _max_actuators = 6;
 #endif
 #if defined(CONFIG_ARCH_BOARD_AEROCORE)
@@ -224,6 +224,20 @@ const PX4FMU::GPIOConfig PX4FMU::_gpio_tab[] = {
 	{GPIO_VDD_5V_HIPOWER_OC, 0,                       0},
 	{GPIO_VDD_5V_PERIPH_OC,  0,                       0},
 #endif
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
+	{GPIO_GPIO0_INPUT,       GPIO_GPIO0_OUTPUT,       0},
+	{GPIO_GPIO1_INPUT,       GPIO_GPIO1_OUTPUT,       0},
+	{GPIO_GPIO2_INPUT,       GPIO_GPIO2_OUTPUT,       0},
+	{GPIO_GPIO3_INPUT,       GPIO_GPIO3_OUTPUT,       0},
+	{GPIO_GPIO4_INPUT,       GPIO_GPIO4_OUTPUT,       0},
+	{GPIO_GPIO5_INPUT,       GPIO_GPIO5_OUTPUT,       0},
+
+	{0,                      GPIO_VDD_5V_PERIPH_EN,   0},
+	{0,                      GPIO_VDD_3V3_SENSORS_EN, 0},
+	{GPIO_VDD_5V_HIPOWER_OC, 0,                       0},
+	{GPIO_VDD_5V_PERIPH_OC,  0,                       0},
+#endif
+
 #if defined(CONFIG_ARCH_BOARD_AEROCORE)
 	/* AeroCore breaks out User GPIOs on J11 */
 	{GPIO_GPIO0_INPUT,       GPIO_GPIO0_OUTPUT,       0},
@@ -1210,7 +1224,7 @@ PX4FMU::pwm_ioctl(file *filp, int cmd, unsigned long arg)
 			set_mode(MODE_4PWM);
 			break;
 
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 		case 6:
 			set_mode(MODE_6PWM);
 			break;
@@ -1337,7 +1351,7 @@ PX4FMU::write(file *filp, const char *buffer, size_t len)
 void
 PX4FMU::sensor_reset(int ms)
 {
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 
 	if (ms < 1) {
 		ms = 1;
@@ -1417,7 +1431,7 @@ PX4FMU::sensor_reset(int ms)
 void
 PX4FMU::peripheral_reset(int ms)
 {
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 
 	if (ms < 1) {
 		ms = 10;
@@ -1634,7 +1648,7 @@ fmu_new_mode(PortMode new_mode)
 		/* select 4-pin PWM mode */
 		servo_mode = PX4FMU::MODE_4PWM;
 #endif
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 		servo_mode = PX4FMU::MODE_6PWM;
 #endif
 #if defined(CONFIG_ARCH_BOARD_AEROCORE)
@@ -1642,7 +1656,7 @@ fmu_new_mode(PortMode new_mode)
 #endif
 		break;
 
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 	case PORT_PWM4:
 		/* select 4-pin PWM mode */
 		servo_mode = PX4FMU::MODE_4PWM;
@@ -1939,7 +1953,7 @@ fmu_main(int argc, char *argv[])
 	} else if (!strcmp(verb, "mode_pwm")) {
 		new_mode = PORT_FULL_PWM;
 
-#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2)
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 	} else if (!strcmp(verb, "mode_pwm4")) {
 		new_mode = PORT_PWM4;
 #endif
@@ -2022,7 +2036,7 @@ fmu_main(int argc, char *argv[])
 	fprintf(stderr, "FMU: unrecognised command %s, try:\n", verb);
 #if defined(CONFIG_ARCH_BOARD_PX4FMU_V1)
 	fprintf(stderr, "  mode_gpio, mode_serial, mode_pwm, mode_gpio_serial, mode_pwm_serial, mode_pwm_gpio, test, fake, sensor_reset, id\n");
-#elif defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_AEROCORE)
+#elif defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_AEROCORE) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 	fprintf(stderr, "  mode_gpio, mode_pwm, test, sensor_reset [milliseconds], i2c <bus> <hz>\n");
 #endif
 	exit(1);

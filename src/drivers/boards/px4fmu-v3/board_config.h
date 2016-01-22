@@ -197,6 +197,10 @@ __BEGIN_DECLS
 #define GPIO_TIM4_CH2OUT	GPIO_TIM4_CH2OUT_2
 #define GPIO_TIM4_CH3OUT	GPIO_TIM4_CH3OUT_2
 
+/* RGB LED PWM */
+#define RGB_RED_LED_PWM     GPIO_TIM3_CH2OUT_2      /* blue  */
+#define RGB_GREEN_LED_PWM   GPIO_TIM4_CH1OUT_1      /* green */
+#define RGB_BLUE_LED_PWM    GPIO_TIM2_CH1OUT_2      /* red   */
 
 /* USB OTG FS
  *
@@ -206,8 +210,9 @@ __BEGIN_DECLS
 
 /* High-resolution timer */
 #define HRT_TIMER		8	/* use timer8 for the HRT */
-#define HRT_TIMER_CHANNEL	1	/* use capture/compare channel */
-
+#define HRT_TIMER_CHANNEL	3	/* use capture/compare channel */
+#define HRT_PPM_CHANNEL		1	/* use capture/compare channel 1 */
+#define GPIO_PPM_IN		(GPIO_ALT|GPIO_AF3|GPIO_PULLUP|GPIO_PORTC|GPIO_PIN6)
 
 /* PWM input driver. Use FMU AUX5 pins attached to timer4 channel 2 */
 #define PWMIN_TIMER		4

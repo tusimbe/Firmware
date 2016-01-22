@@ -956,7 +956,7 @@ PARAM_DEFINE_INT32(RC_DSM_BIND, -1);
  */
 PARAM_DEFINE_INT32(BAT_V_SCALE_IO, 10000);
 
-#ifdef CONFIG_ARCH_BOARD_PX4FMU_V2
+#if defined(CONFIG_ARCH_BOARD_PX4FMU_V2) || defined(CONFIG_ARCH_BOARD_PX4FMU_V3)
 /**
  * Scaling factor for battery voltage sensor on FMU v2.
  *

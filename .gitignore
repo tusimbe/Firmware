@@ -53,3 +53,4 @@ src/platforms/qurt/px4_messages/
 makefiles/config_px4fmu-v2_APM.mk
 makefiles/nuttx/config_px4fmu-v1_APM.mk
 makefiles/nuttx/config_px4fmu-v2_APM.mk
+config_px4fmu-v3_APM.mk
